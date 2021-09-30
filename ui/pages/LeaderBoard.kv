@@ -1,0 +1,46 @@
+#:import MenuButton ui.buttons
+
+<LeaderBoardWidget@BoxLayout>
+    orientation: "vertical"
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: 0.22745098039215686, 0.22745098039215686, 0.22745098039215686, 0.4
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        size_hint_y: 0.1
+        Label:
+            text: 'Гравець'
+        Label:
+            text: 'Кількість набраних очків'
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: 0.36470588235294116, 0.36470588235294116, 0.36470588235294116, 0.4
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        RecycleView:
+            data: [{'text':"{}".format(name)} for name,points in root.rows]
+            viewclass: "Label"
+            RecycleBoxLayout:
+                default_size: None, dp(56)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: "vertical"
+        RecycleView:
+            data: [{'text':"{}".format(points)} for name,points in root.rows]
+            viewclass: "Label"
+            RecycleBoxLayout:
+                default_size: None, dp(56)
+                orientation: "vertical"
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+    MenuButton:
+        size_hint_y: .5
+        pos_hint: {'x':.3, 'y':.1}
+        text: "Назад"
+        on_press: app.root.prev_screen()

@@ -1,0 +1,78 @@
+#:import WipeTransition kivy.uix.screenmanager.WipeTransition
+#:import Popup kivy.uix.popup
+#:import Label kivy.uix.label
+#:import MenuButton ui.buttons
+
+#:include force ./ui/pages/Game.kv
+#:include force ./ui/pages/LeaderBoard.kv
+
+
+# Стилі для UI
+<RootScreenManager>:
+    name: "root"
+    transition: WipeTransition()
+    MainMenuScreen:
+    GameScreen:
+    LeaderBoardScreen:
+
+
+<DialogButton@MenuButton>:
+    size_hint: .5, 1
+
+
+<BackWidget@BoxLayout>:
+    DialogButton:
+        text: "Вийти"
+        on_release:
+            app.root.prev_screen()
+            app._back_popup.dismiss()
+    DialogButton:
+        text: "Залишитись"
+        on_release:
+            app._back_popup.dismiss()
+
+
+<HelpWidget>:
+    do_scroll_x: False
+    do_scroll_y: True
+    always_overscroll: False
+    GridLayout:
+        cols: 1
+        spacing: 10
+        size_hint_y: None
+        height: 400
+        Label:
+            multiline: True
+            text: root.help_text
+            text_size: None,None
+            size_hint: None, None
+            size: self.texture_size
+
+
+<MainMenuWidget@BoxLayout>:
+    pos_hint: {'x':.0, 'y':.4}
+    MenuButton:
+        text: "Грати!"
+        on_release: app.root.next_screen(self, "game_screen")
+    MenuButton:
+        text: "Лідери"
+        on_release: app.root.next_screen(self, "leaderboard_screen")
+    MenuButton:
+        text: "Допомога"
+        on_release: app.root._help_widget.open()
+    MenuButton:
+        text: "Вийти"
+        on_release: exit()
+
+
+<MainMenuScreen>:
+    name: "menu"
+    MainMenuWidget:
+
+<GameScreen>:
+    name: "game_screen"
+    GameWidget:
+
+<LeaderBoardScreen>:
+    name: "leaderboard_screen"
+    LeaderBoardWidget:
